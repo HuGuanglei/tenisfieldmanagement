@@ -1,0 +1,433 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Welcome to the Booking System</title>
+<script type="text/javascript" src="js/jquery-3.2.1.min.js" ></script>
+<script type="text/javascript" src="js/WdatePicker.js" ></script>
+<script type="text/javascript" src="js/date.js" ></script>
+<style type="text/css">
+    #divTbl td
+    {
+        white-space: nowrap;
+        padding-top: 5%;
+    }
+    #divAddCourtTbl td
+    {
+        white-space: nowrap;
+        padding-top: 5%;
+    }
+    #detailTbl td{
+    	white-space: nowrap;
+    }
+    #boxTbl{
+    	border-spacing:10px 20px;
+    	border-collapse:separate;
+    }
+    
+</style>
+</head>
+<body>
+	<div align="center">
+		<img src="images/tennis_main.jpg" alt="无法显示图片" />
+	</div>
+	<div style="text-align:center;margin:5% 30%">
+		<div style="float:left; ">
+			<label for="date">日期：</label>
+			<input name="bookTime" type="text" class="Wdate" onclick="WdatePicker({ dateFmt: 'yyyy-MM-dd' })">
+		</div>
+		<div style="float:left; ">
+			<input type="hidden" id="day" name="day" value="d">
+			<table align="center">
+				<tr>
+					<td><input type="button" value="预订场地" name="BtnBook" onclick="bookSpace()"></td>
+					<td>
+					<input type="button" value="查询已预订场地" name="BtnViewBookedCourt" onclick="selectBookSpace()"> 
+					<input type="button" value="管理员操作" name="AdminEditBox" onclick="adminBox()"> 
+				</tr>
+			</table>
+		</div>
+		<div style="float:right; "><input type="button" style="background-color:#33FFCC" value="退出" name="btnCancel" onclick="window.location.href='/logout'"></td>
+		</div>
+	</div>
+	<div id="blockMuchDisplayDiv" style="display:none; POSITION:absolute; left:35%; top:20%; width:30%; background-color:#d8f3f0; text-align:left; padding:10px 15px">
+		<form method="post" action="">
+			<table id="divTbl" width="30%" border="0" align="center">
+				<tbody>
+					<tr>
+						<td colspan="2"><div align="center">场地预订<br><span style='font-size:5px'>(只能预订同一天9：00-22：00)</span></div></td>
+					</tr>
+					<tr>
+						<td>场地名称:<br></td>
+						<td><select id="selectCourtName" style="width:80%" >
+						　　　　<option>请选择</option>
+						　　</select></td>
+					</tr>
+					<tr>
+						<td>场地编号:</td>
+						<td><input type="text" maxlength="20" size="20%"  disabled="disabled" id="courtIdSelect" name="courtId"></td>
+					</tr>
+					<tr>
+						<td>开始时间:</td>
+						<td><input name="startTime" id='startTimeMuch' type="text" class="Wdate" onclick="dateStartTime()"></td>
+					</tr>
+					<tr>
+						<td>结束时间:</td>
+						<td><input name="endTime" id="endTimeMuch" type="text" class="Wdate" onclick="dateEndTime()"></td>
+					</tr>
+					<tr>
+						<td valign="top"><br></td>
+						<td valign="top"><input type="button" value="预订" name="BtnBook" onclick="bookSpaceNow()">
+							<input type="button" value="取消" name="btnCancel" onclick="closeDiv()"> </td>
+					</tr>
+				</tbody>
+			</table>
+		</form>
+	</div>
+	
+	<div id="errorDisplayDiv" style="display:none; POSITION:absolute; left:45%; top:10%; width:10%; background-color:red; text-align:left; padding:10px 15px">
+		<span id="errorMsgDisplay"></span>
+		<input type="button" style="margin-top: 4%;float:right" value="关闭" name="divClose" onclick="$('#errorDisplayDiv').hide();">
+	</div>
+	<br>
+	<div style="text-align:center;margin: 4% 20%;">
+		<table id="detailTbl" border="1" align="center">
+		</table>
+	</div>
+	<div id="blockBoxDisplayDiv" style="display:none; POSITION:absolute; left:35%; top:20%; width:30%; background-color:#d8f3f0; text-align:left; padding:10px 15px">
+		<table id="boxTbl" align="center">
+			<tr>
+				<td>查询所有已预订场地:</td>
+				<td><input type="text" value="" placeholder="请输入场地名称（默认全部）" name="allBookSelectText"></td>
+				<td><input type="button" value="查询" name="BtnAllBookSelect" onclick="selectAllBookSpace()"></td>
+			</tr>
+			<tr>
+				<td>查询所用户:</td>
+				<td><input type="text" value="" placeholder="请输入用户名称（默认全部）" name="allUsersSelectText"></td>
+				<td><input type="button" value="查询" name="BtnAllUsersSelect" onclick="selectUserInfo()"></td>
+				<td>
+			</tr>
+			<tr>
+				<td>场地管理:</td>
+				<td><input type="button" value="添加场地" name="addCourtInfo" onclick="$('#blockAddCourtDisplayDiv').show();"></td>
+				<td><input type="button" value="查看所有场地" name="BtnAllCourtSelect" onclick="selectCourtInfo()"></td>
+				<td>
+			</tr>
+		</table>
+		<div><input type="button" style="margin-top: 15%;float:right" value="关闭" name="boxClose" onclick="$('#blockBoxDisplayDiv').hide();"> </div>
+	</div>
+	<div id="blockAddCourtDisplayDiv" style="display:none; POSITION:absolute; left:38%; top:20%; width:25%; background-color:#FFF0F5; text-align:left; padding:10px 15px">
+		<form method="post" action="">
+			<table id="divAddCourtTbl" width="30%" border="0" align="center">
+				<tbody>
+					<tr>
+						<td colspan="2"><div align="center">添加场地</div></td>
+					</tr>
+					<tr>
+						<td>场地名称:<br></td>
+						<td><input type="text" maxlength="20" size="20%" id="courtNameAdd" name="courtNameAdd"></td>
+					</tr>
+					<tr>
+						<td>场地编号:</td>
+						<td><input type="text" maxlength="20" size="20%" id="courtIdAdd"  name="courtIdAdd"></td>
+					</tr>
+					<tr>
+						<td valign="top"><br></td>
+						<td valign="top"><input type="button" value="添加" name="BtnAddCourt" onclick="addCourtNow()">
+							<input type="button" value="取消" name="btnAddCourtCancel" onclick="$('#blockAddCourtDisplayDiv').hide();"> </td>
+					</tr>
+				</tbody>
+			</table>
+		</form>
+	</div>
+        
+   <script type="text/javascript">
+    var startInitDate=dateFtt('yyyy-MM-dd HH',new Date());
+    var endInitDate = GetTodayHourStr(1);
+    $("#startTimeMuch").val(startInitDate);
+    $("#endTimeMuch").val(endInitDate);
+   	function dateStartTime(){
+	   	WdatePicker({dateFmt:'yyyy-MM-dd HH',minDate:'%y-%M-%d %H:00:00'});
+  	}
+   	function dateEndTime(){
+	   	WdatePicker({dateFmt:'yyyy-MM-dd HH',minDate:'#F{$dp.$D(\'startTimeMuch\',{H:1})}',maxDate:'#F{$dp.$D(\'startTimeMuch\',{H:13})}'});
+   	}
+	function bookSpace(){
+		$("#blockMuchDisplayDiv").show();
+	}
+	function closeDiv(){
+		$("#blockMuchDisplayDiv").hide();
+	}
+	function adminBox(){
+		$("#blockBoxDisplayDiv").show();
+	}
+	function addCourtNow(){
+		var courtName = $("#courtNameAdd").val();
+		var courtId = $("#courtIdAdd").val();
+		if(courtName == ""){
+			alert("场地不能为空");
+			return;
+		}
+		if(courtId == ""){
+			alert("场地编号不能为空");
+			return;
+		}
+		$.ajax({
+			type : "post",
+			url : "admin/addCourt",
+			contentType: 'application/json',
+			data : JSON.stringify({
+				"courtName" : courtName,
+				"courtId" : courtId
+			}),
+			dataType : "json",
+			success : function(data) {
+				$("#errorDisplayDiv").show();
+				$("#errorMsgDisplay").html(data.errorMsg);
+			},
+			error : function(XMLHttpRequest, textStatus, errorThrown) {
+				$("#errorDisplayDiv").show();
+				$('#errorMsgDisplay').html("添加场地失败！");
+			}
+		});
+	}
+	function selectCourtInfo(){
+		$.ajax({
+			type : "post",
+			url : "api/courtList",
+			data : {
+			},
+			dataType : "json",
+			success : function(data) {
+				var trHTML = "<tr><td>场地名称</td><td>场地编号</td><td>创建时间</td><td>操作</td></tr>";
+				for(var i =0;i<data.length;i++){
+					trHTML += "<tr id='curCourtListIndex"+ data[i].courtId + "'><td>" + data[i].courtName + "</td><td>"
+						+ data[i].courtId + "</td><td>"
+						+ data[i].createDate + "</td><td>" 
+						+ "<a href='javascript:deleteCourt(" + data[i].courtId + ",\"curCourtListIndex"+ data[i].courtId +"\");'>删除</a>" + "</td>"
+						+ "</tr>";
+				}
+				$("#detailTbl").html(trHTML);//在table最后面添加一行
+			},
+			error : function(XMLHttpRequest, textStatus, errorThrown) {
+				
+			}
+		});
+	}
+	$("select#selectCourtName").change(function(){
+    	var courtName = $(this).val();
+    	if(courtName == "" || courtName == "请选择")return;
+    	$.ajax({
+			type : "post",
+			url : "api/getCourtId",
+			data : {
+				"courtName" : courtName
+			},
+			dataType : "json",
+			success : function(data) {
+				$("#courtIdSelect").val(data);
+			},
+			error : function(XMLHttpRequest, textStatus, errorThrown) {
+				
+			}
+		});
+	});
+	
+	function initCourtInfo(){
+		$.ajax({
+			type : "post",
+			url : "api/courtList",
+			data : {
+			},
+			dataType : "json",
+			success : function(data) {
+				for (var i = 0; i < data.length; i++) {
+					$("#selectCourtName").append("<option>"+ data[i].courtName+"</option>");
+				}
+			},
+			error : function(XMLHttpRequest, textStatus, errorThrown) {
+				
+			}
+		});
+	}
+	initCourtInfo();
+	function bookSpaceNow(){
+		var start = $("#startTimeMuch").val();
+		var end = $("#endTimeMuch").val();
+		if(start.split(" ")[0] != end.split(" ")[0]){
+			alert("只能选择同一天的时间段！");
+			return;
+		}
+		var endTime = end.split(" ")[1].split(":")[0];
+		var startTime = start.split(" ")[1].split(":")[0];
+		if(endTime > 22 || endTime < 9 || startTime < 9 || startTime > 22){
+			alert("只能选择9点到22点的时间段！");
+			return;
+		}
+		var courtName = $("#selectCourtName").val();
+		var courtId = $("#courtIdSelect").val();
+		if(courtName == "" || courtName == "请选择" || courtId == ""){
+			alert("请完整填写选项");
+			return;
+		}
+		
+		$.ajax({
+			type : "post",
+			url : "api/book",
+			contentType: 'application/json',
+			data : JSON.stringify({
+				"courtName" : courtName,
+				"courtId" : courtId,
+				"startTime" : $("input[name='startTime']").val(),
+				"endTime" : $("input[name='endTime']").val()
+			}),
+			dataType : "json",
+			success : function(data) {
+				$("#errorDisplayDiv").show();
+				$("#errorMsgDisplay").html(data.errorMsg);
+			},
+			error : function(XMLHttpRequest, textStatus, errorThrown) {
+				$("#errorDisplayDiv").show();
+				$('#errorMsgDisplay').html("预订失败！");
+			}
+		});
+	}
+	function selectBookSpace(){
+		$.ajax({
+			type : "post",
+			url : "api/bookList",
+			data : {
+				"bookTime" : $("input[name='bookTime']").val()	
+			},
+			dataType : "json",
+			success : function(data) {
+				var trHTML = "<tr><td>起始时间</td><td>结束时间</td><td>场地名称</td><td>场地编号</td></tr>";
+				for(var i =0;i<data.length;i++){
+					trHTML += "<tr><td>" + data[i].startTime + "</td><td>"
+						+ data[i].endTime + "</td><td>" 
+						+ data[i].courtName + "</td><td>" 
+						+ data[i].courtId + "</td>" 
+						+ "</tr>";
+				}
+				$("#detailTbl").html(trHTML);//在table最后面添加一行
+			},
+			error : function(XMLHttpRequest, textStatus, errorThrown) {
+				
+			}
+		});
+	}
+	
+	function selectAllBookSpace(){
+		var text = $("input[name='bookTime']").val();
+		$.ajax({
+			type : "post",
+			url : "admin/bookList",
+			data : {
+				"bookTime" : $("input[name='bookTime']").val(),
+				"courtName": text
+			},
+			dataType : "json",
+			success : function(data) {
+				var trHTML = "<tr><td>起始时间</td><td>结束时间</td><td>场地名称</td><td>场地编号</td><td>操作</td></tr>";
+				for(var i =0;i<data.length;i++){
+					trHTML += "<tr id='curIndex"+ data[i].id + "'><td>" + data[i].startTime + "</td><td>"
+						+ data[i].endTime + "</td><td>" 
+						+ data[i].courtName + "</td><td>" 
+						+ data[i].courtId + "</td><td>" 
+						+ "<a href='javascript:deleteBook(" + data[i].id + ",\"curIndex"+ data[i].id +"\");'>删除</a>" + "</td>"
+						+ "</tr>";
+				}
+				$("#detailTbl").html(trHTML);//在table最后面添加一行
+			},
+			error : function(XMLHttpRequest, textStatus, errorThrown) {
+				
+			}
+		});
+	}
+	function deleteBook(id,obj){
+		
+		$.ajax({
+			type : "post",
+			url : "admin/deleteBook",
+			data : {
+				"id":id
+			},
+			dataType : "json",
+			success : function(data) {
+				if(data !=null && data.errorCode == "200"){
+					$('#' + obj).remove();
+				}
+			},
+			error : function(XMLHttpRequest, textStatus, errorThrown) {
+				
+			}
+		});
+	}
+	
+	function deleteCourt(courtId,obj){
+		$.ajax({
+			type : "post",
+			url : "admin/deleteCourt",
+			data : {
+				"courtId":courtId
+			},
+			dataType : "json",
+			success : function(data) {
+				if(data !=null && data.errorCode == "200"){
+					$('#' + obj).remove();
+				}
+			},
+			error : function(XMLHttpRequest, textStatus, errorThrown) {
+				
+			}
+		});
+	}
+	function selectUserInfo(){
+		var text = $("input[name='allUsersSelectText']").val();
+		$.ajax({
+			type : "post",
+			url : "admin/users",
+			data : {
+				"userName": text
+			},
+			dataType : "json",
+			success : function(data) {
+				var trHTML = "<tr><td>用户名</td><td>姓名</td><td>邮箱</td><td>手机号</td><td>操作</td></tr>";
+				for(var i =0;i<data.length;i++){
+					trHTML += "<tr id='curUserIndex"+ data[i].userName + "'><td>" + data[i].userName + "</td><td>"
+						+ data[i].name + "</td><td>" 
+						+ data[i].emailAddr + "</td><td>" 
+						+ data[i].mobile + "</td><td>" 
+						+ "<a href='javascript:deleteUser(\"" + data[i].userName + "\",\"curUserIndex"+ data[i].userName +"\");'>删除</a>" + "</td>"
+						+ "</tr>";
+				}
+				$("#detailTbl").html(trHTML);//在table最后面添加一行
+			},
+			error : function(XMLHttpRequest, textStatus, errorThrown) {
+				
+			}
+		});
+	}
+	
+	function deleteUser(userName,obj){
+		$.ajax({
+			type : "post",
+			url : "admin/deleteUser",
+			data : {
+				"userName":userName
+			},
+			dataType : "json",
+			success : function(data) {
+				if(data !=null && data.errorCode == "200"){
+					$('#' + obj).remove();
+				}
+			},
+			error : function(XMLHttpRequest, textStatus, errorThrown) {
+				
+			}
+		});
+	}
+	
+	</script>
+</body>
+</html>

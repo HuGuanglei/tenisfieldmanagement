@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>欢迎登录系统！</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="css/foundation.min.css">
+<link rel="stylesheet" href="css/page.css">
+<script src="js/jquery-3.2.1.min.js"></script>
+<script src="js/foundation.min.js"></script>
+<script src="js/modernizr.js"></script>
+<script src="js/admin.js"></script>
+<script src="js/api.js"></script>
+<script type="text/javascript" src="js/WdatePicker.js" ></script>
+<script type="text/javascript" src="js/date.js" ></script>
+</head>
+<body>
+
+	<div class="row" style="margin: 3% 5%;">
+		<div class="medium-4 columns" style="background-color: #f1f1f1;">
+			<ul id="bar" class="side-nav">
+				<li id="home" class="active"><a href="#">首页</a></li>
+				<li id="bookManager"><a href="#">预订管理</a></li>
+				<li id="userInfoManager"><a href="#">个人信息管理</a></li>
+				<li id="logout"><a href="#">退出登录</a></li>
+			</ul>
+		</div>
+		<div id="homePage" style="display: none" class="medium-8 columns">
+			<h1>预订管理</h1>
+			<p>普通权限即可以操作，用来管理预订，包含新增预订，预订列表功能。</p>
+			<p>
+				<strong>注意：</strong>预订时段为8：00-22：00，且只能预订同一天。
+			</p>
+			<h1>用户管理</h1>
+			<p>管理用户，包含用户信息编辑，账户信息查看，交易明细查看等功能。</p>
+			<p>
+				<strong>注意：</strong>销户操作将会清空账户余额。
+			</p>
+			<h1>退出登录</h1>
+			<p>点击弹出框选择确认即可退出系统。</p>
+			
+		</div>
+		
+		
+		<div id="bookManagerPage" style="display: none" class="medium-8 columns">
+			<div style="text-align: center;">
+				<menu class="menu" style="width: 1000px;">
+					<div class="w1170">
+						<ul id="bookUlliControl">
+							<li id="newBook"><a href="#">新增预订</a></li>
+							<li id="viewBook" class="on"><a href="#">预订管理</a></li>
+						</ul>
+					</div>
+				</menu>
+				<div id="bookContent" style="width: 800px;"></div>
+				<div id="errorBookDisplayDiv" style="display:none; POSITION:absolute; left:65%; top:65%; width:35%; background-color:red; text-align:left; padding:10px 15px">
+					<span id="errorBookMsgDisplay"></span>
+					<input type="button" style="margin-top: 15%;float:right" value="关闭" name="divClose" onclick="$('#errorBookDisplayDiv').hide();">
+				</div>
+				<div id="newBookcontent" style="display: none">
+					<section class="umcontent">
+						<aside class="left_con">
+							<!--背景层-->
+							<section class="content1">
+								<aside class="left_con">
+									<div class="left_con_tit borderb">新增预订</div>
+									
+								</aside>
+							</section>
+						</aside>
+						<form action="" method="post">
+							<section class="boxRight">
+								<div class="boxRight_tit f1 borderb">新增预订</div>
+								<article class="boxRightCon">
+									<table id="divAddBookTbl" border="0" width="80%" align="center">
+										<tbody>
+											<tr>
+											<td colspan="2"><div align="center">场地预订<br><span style='font-size:5px'>(只能预订同一天8：00-22：00)</span></div></td>
+										</tr>
+										<tr>
+											<td width="30%">场地名称:<br></td>
+											<td width="70%"><select id="selectCourtName" style="width:70%">
+											　　　　<option>请选择</option>
+											　　</select>
+											<input type="button" class="smllButton" style="float:right;background-color: #2E9AFE;padding: 4px 10px;" value="随机" onclick="rondomSelect()">
+											</td>
+										</tr>
+										<tr>
+											<td width="30%">场地编号:</td>
+											<td width="70%"><input type="text" maxlength="20" size="20%"  disabled="disabled" id="courtIdSelect" name="courtId"></td>
+										</tr>
+										<tr>
+											<td width="30%">开始时间:</td>
+											<td width="70%"><input name="startTime" id='startTimeMuch' type="text" class="Wdate" onclick="dateStartTime()" onblur="selectCourtRealTime();"></td>
+										</tr>
+										<tr>
+											<td width="30%">结束时间:</td>
+											<td width="70%"><input name="endTime" id="endTimeMuch" type="text" class="Wdate" onclick="dateEndTime()"  onblur="selectCourtRealTime();"></td>
+										</tr>
+										<tr>
+											<td valign="top"><br></td>
+											<td valign="top">
+												<input type="button" class="smllButton" style="background-color: #C6A300;" value="预订" name="BtnBook" onclick="bookSpaceNow()">
+										</tr>
+										</tbody>
+									</table>
+									</table>
+								</article>
+							</section>
+						</form>
+					</section>
+				</div>
+				<div id="umBookContent" style="display: none">
+					<section class="umcontent">
+						<aside class="left_con">
+							<!--背景层-->
+							<section class="content1">
+								<aside class="left_con">
+									<div class="left_con_tit borderb">预订管理</div>
+									<ul>    
+										<li>
+											<div style="">
+											<input name="bookTime" id="bookTime" type="text" class="Wdate" onclick="WdatePicker({ dateFmt: 'yyyy-MM-dd' })">
+											</div>
+										</li>
+										<li><a href="#" style="margin-bottom: 20px;background-color: #FFC78E;" onclick="selectBookSpace()">查看预订</a></li>
+									</ul>
+								</aside>
+							</section>
+						</aside>
+						<form action="" method="post">
+							<section class="boxRight">
+								<div class="boxRight_tit f1 borderb">预订列表</div>
+								<article class="boxRightCon">
+									
+									<div style="text-align:center;margin: 4% 4%;">
+										<table id="detailBookTbl" border="1" align="center">
+										</table>
+									</div>
+								</article>
+							</section>
+						</form>
+					</section>
+				</div>
+			</div>
+
+		</div>
+		
+		
+	<div id="userInfoManagerPage" style="display: none" class="medium-8 columns">
+		<div style="text-align: center;">
+			<menu class="menu" style="width: 1000px;">
+				<div class="w1170">
+					<ul id="userInfoUlliControl">
+						<li id="userInfoMa" class="on"><a href="#">用户信息</a></li>
+						<li id="accountInfoMa"><a href="#">账户信息</a></li>
+					</ul>
+				</div>
+			</menu>
+			<div id="userInfoContent" style="width: 800px;"></div>
+			<div id="errorUserInfoDisplayDiv" style="display:none; POSITION:absolute; left:65%; top:65%; width:35%; background-color:red; text-align:left; padding:10px 15px">
+				<span id="errorUserInfoMsgDisplay"></span>
+				<input type="button" style="margin-top: 15%;float:right" value="关闭" name="divClose" onclick="$('#errorUserInfoDisplayDiv').hide();">
+			</div>
+			<div id="newUserInfocontent" style="display: none">
+				<section class="umcontent">
+					<aside class="left_con">
+						<!--背景层-->
+						<section class="content1">
+							<aside class="left_con">
+								<div class="left_con_tit borderb">用户信息管理</div>
+								
+							</aside>
+						</section>
+					</aside>
+					<form action="" method="post">
+						<section class="boxRight">
+							<div class="boxRight_tit f1 borderb">用户信息管理</div>
+							<article class="boxRightCon">
+								<table id="divUserInfoMaTbl" border="0" width="80%" align="center">
+									<tbody>
+										<tr>
+											<td colspan="2"><div align="center">编辑用户</div></td>
+										</tr>
+										<tr>
+											<td>用户名</td>
+											<td><input type="text" maxlength="20" size="20%" disabled="disabled" id="editUserName" name="editUserName"></td>
+										</tr>
+										<tr>
+											<td>姓名:</td>
+											<td><input type="text" maxlength="20" size="20%" id="editName"  name="editName"></td>
+										</tr>
+										<tr>
+											<td>邮箱:</td>
+											<td><input type="text" maxlength="20" size="20%" id="editEmail"  name="editEmail"></td>
+										</tr>
+										<tr>
+											<td>手机号:</td>
+											<td><input type="text" maxlength="20" size="20%" id="editMobile"  name="editMobile"></td>
+										</tr>
+										<tr>
+											<td valign="top"><br></td>
+											<td valign="top"><input type="button" class="smllButton" style="background-color: #C6A300;" value="更新" name="BtnAddCourt" onclick="updateUser()">
+											</td>
+										</tr>
+									</tbody>
+								</table>
+								</table>
+							</article>
+						</section>
+					</form>
+				</section>
+			</div>
+			<div id="umAccountInfoContent" style="display: none">
+				<section class="umcontent">
+					<aside class="left_con">
+						<!--背景层-->
+						<section class="content1">
+							<aside class="left_con">
+								<div class="left_con_tit borderb">账户信息</div>
+								<ul>    
+									<li><a href="#" style="margin-bottom: 20px;background-color: #e0c1c1;" onclick="queryAccountBal()">查看余额</a></li>
+								
+									<li>
+										<div style="">
+										<input name="transTime" id="transTime" type="text" class="Wdate" onclick="WdatePicker({ dateFmt: 'yyyy-MM-dd' })">
+										</div>
+									</li>
+									<li><a href="#" style="margin-bottom: 20px;background-color: #FFC78E;" onclick="queryAccountDetail()">查看明细</a></li>
+								</ul>
+							</aside>
+						</section>
+					</aside>
+					<form action="" method="post">
+						<section class="boxRight">
+							<div class="boxRight_tit f1 borderb" id="accountListDisp">明细列表</div>
+							<article class="boxRightCon">
+								
+								<div style="text-align:center;margin: 4% 4%;">
+									<table id="detailAccountInfoTbl" border="1" align="center">
+									</table>
+								</div>
+							</article>
+						</section>
+					</form>
+				</section>
+			</div>
+		</div>
+
+	</div>
+		
+	<div id="logoutPage" style="display: none" class="medium-8 columns">
+		<div id="logoutDisplayDiv" style="POSITION:absolute; left:40%; width:25%; background-color:red; text-align:left; padding:10px 15px">
+			<span>确定退出么？</span>
+			<input type="button" class="smllButton" style="margin-top: 4%;float:right;background-color: #C6A300;" value="关闭" name="divClose" onclick="$('#logoutPage').hide();">
+			<input type="button" class="smllButton" style="margin-top: 4%;float:right;background-color: #007500;" value="确定" onclick="window.location.href='/logout'">	
+		</div>
+	</div>
+	<script type="text/javascript">
+		$(function() {
+			
+			$("#homePage").show();
+			
+			$("#bar li").click(function() {
+				$("#"+ $(this).siblings('li').attr('id') + "Page").hide();
+				$("#homePage").hide();
+				$("#bookManagerPage").hide();
+				$("#logoutPage").hide();
+				$("#userInfoManagerPage").hide();
+				var id = $(this).attr('id');
+				if(id == "bookManager"){
+					$("#bookManagerPage").show();			
+				}else if(id == "logout"){
+					$("#logoutPage").show();
+				}else if(id == "userInfoManager"){
+					$("#userInfoManagerPage").show();
+					getCurrentUserInfo();
+				}else {
+					$("#homePage").show();
+				}
+			});
+			
+			$("#bookContent").html($("#umBookContent").html());
+			$("#bookUlliControl li").click(function() {
+				$(this).siblings('li').removeClass('on'); // 删除其他兄弟元素的样式
+				$(this).addClass('on'); // 添加当前元素的样式
+				var id = $(this).attr('id');
+				if(id == "newBook"){
+					$("#bookContent").html($("#newBookcontent").html());
+					var startInitDate=dateFtt('yyyy-MM-dd HH',new Date());
+				    var endInitDate = GetTodayHourStr(1);
+				    $("#startTimeMuch").val(startInitDate);
+				    $("#endTimeMuch").val(endInitDate);
+
+				    $("#selectCourtName").change(function(){
+				    	var courtName = $(this).val();
+				    	if(courtName == "" || courtName == "请选择")return;
+				    	$.ajax({
+							type : "post",
+							url : "api/getCourtId",
+							data : {
+								"courtName" : courtName
+							},
+							dataType : "json",
+							success : function(data) {
+								$("#courtIdSelect").val(data);
+							},
+							error : function(XMLHttpRequest, textStatus, errorThrown) {
+								
+							}
+						});
+					});
+				    initCourtInfo();
+				}else {
+					$("#bookContent").html($("#umBookContent").html());
+				}
+			});
+			
+			
+			$("#userInfoContent").html($("#newUserInfocontent").html());
+			$("#userInfoUlliControl li").click(function() {
+				$(this).siblings('li').removeClass('on'); // 删除其他兄弟元素的样式
+				$(this).addClass('on'); // 添加当前元素的样式
+				var id = $(this).attr('id');
+				if(id == "userInfoMa"){
+					$("#userInfoContent").html($("#newUserInfocontent").html());
+					getCurrentUserInfo();
+				}else {
+					$("#userInfoContent").html($("#umAccountInfoContent").html());
+				}
+			});
+			
+		});
+	</script>
+</body>
+</html>

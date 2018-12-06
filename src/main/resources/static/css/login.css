@@ -1,0 +1,33 @@
+.account {
+	width: 310px;
+	height: 30px;
+	margin-bottom: 7px;
+	line-height: 30px;
+	padding-left: 12px;
+	border-radius: 4px;
+	border: 1px solid #dcdcdc;
+}
+
+.passw {
+	width: 310px;
+	height: 30px;
+	margin-bottom: 7px;
+	line-height: 40px;
+	padding-left: 12px;
+	border-radius: 4px;
+	border: 1px solid #dcdcdc;
+}
+
+.button {
+    background-color: #a65579; /* Green */
+    border: none;
+    color: white;
+    padding: 11px 23px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 12px;
+}

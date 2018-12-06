@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>欢迎登录系统！</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="css/foundation.min.css">
+<link rel="stylesheet" href="css/page.css">
+<script src="js/jquery-3.2.1.min.js"></script>
+<script src="js/foundation.min.js"></script>
+<script src="js/modernizr.js"></script>
+<script src="js/admin.js"></script>
+<script src="js/api.js"></script>
+<script type="text/javascript" src="js/WdatePicker.js" ></script>
+<script type="text/javascript" src="js/date.js" ></script>
+</head>
+<body>
+
+	<div class="row" style="margin: 3% 5%;">
+		<div class="medium-4 columns" style="background-color: #f1f1f1;">
+			<ul id="bar" class="side-nav">
+				<li id="home" class="active"><a href="#">首页</a></li>
+				<li id="courtManager"><a href="#">场地管理</a></li>
+				<li id="bookManager"><a href="#">预订管理</a></li>
+				<li id="consumeManager"><a href="#">消费管理</a></li>
+				<li id="userManager"><a href="#">用户管理</a></li>
+				<li id="logout"><a href="#">退出登录</a></li>
+			</ul>
+		</div>
+		<div id="homePage" style="display: none" class="medium-8 columns">
+			<h1>管理员登录</h1>
+			<p>管理员登录和普通用户登录可以共享同一个登录界面</p>
+			<p>
+				<strong>注意：</strong>如果选择管理员登录，首次登录会生成管理员账号。
+			</p>
+			<h1>场地管理</h1>
+			<p>管理员权限才可以操作，用来管理场地，包含新增场地，场地列表、场地删除功能。</p>
+			<p>
+				<strong>注意：</strong>场地编号不要重复。
+			</p>
+			<h1>预订管理</h1>
+			<p>普通权限即可以操作，用来管理预订，包含新增预订，预订列表功能。</p>
+			<p>管理员权限可以查看所有预订，并提供删除功能。</p>
+			<p>
+				<strong>注意：</strong>预订时段为8：00-22：00，且只能预订同一天。
+			</p>
+			<h1>消费管理</h1>
+			<p>管理员权限进行充值，消费，查询交易详情，撤销交易，查看统计等功能。</p>
+			<p>
+				<strong>注意：</strong>账户已销户不能进行任何交易。
+			</p>
+			<h1>用户管理</h1>
+			<p>管理员权限才可以操作，用来管理用户，包含用户列表、用户删除、用户开户，用户销户等功能。</p>
+			<p>
+				<strong>注意：</strong>新建用户的时候默认已开户。
+			</p>
+			<h1>退出登录</h1>
+			<p>点击弹出框选择确认即可退出系统。</p>
+		</div>
+		<div id="courtManagerPage" style="display: none" class="medium-8 columns">
+			<div style="text-align: center;">
+				<menu class="menu" style="width: 1000px;">
+					<div class="w1170">
+						<ul id="courtUlliControl">
+							<li id="newCourt"><a href="#">新增场地</a></li>
+							<li id="viewCourt" class="on"><a href="#">场地管理</a></li>
+						</ul>
+					</div>
+				</menu>
+				<div id="courtContent" style="width: 800px;"></div>
+				<div id="errorDisplayDiv" style="display:none; POSITION:absolute; left:65%; top:65%; width:25%; background-color:red; text-align:left; padding:10px 15px">
+					<span id="errorMsgDisplay"></span>
+					<input type="button" style="margin-top: 4%;float:right" value="关闭" name="divClose" onclick="$('#errorDisplayDiv').hide();">
+				</div>
+				<div id="newCourtcontent" style="display: none">
+					<section class="umcontent">
+						<aside class="left_con">
+							<!--背景层-->
+							<section class="content1">
+								<aside class="left_con">
+									<div class="left_con_tit borderb">新增场地</div>
+									
+								</aside>
+							</section>
+						</aside>
+						<form action="" method="post">
+							<section class="boxRight">
+								<div class="boxRight_tit f1 borderb">新增场地</div>
+								<article class="boxRightCon">
+									<table id="divAddCourtTbl" border="0" align="center">
+										<tbody>
+											<tr>
+												<td colspan="2"><div align="center">添加场地</div></td>
+											</tr>
+											<tr>
+												<td>场地名称:<br></td>
+												<td><input type="text" maxlength="20" size="20%" id="courtNameAdd" name="courtNameAdd"></td>
+											</tr>
+											<tr>
+												<td>场地编号:</td>
+												<td><input type="text" maxlength="20" size="20%" id="courtIdAdd"  name="courtIdAdd"></td>
+											</tr>
+											<tr>
+												<td valign="top"><br></td>
+												<td valign="top" align="center">
+													<input type="button" class="button" style="background-color: #007500;" value="新增"onclick="addCourtNow()">
+											</tr>
+										</tbody>
+									</table>
+								</article>
+							</section>
+						</form>
+					</section>
+				</div>
+				<div id="umcontent" style="display: none">
+					<section class="umcontent">
+						<aside class="left_con">
+							<!--背景层-->
+							<section class="content1">
+								<aside class="left_con">
+									<div class="left_con_tit borderb">场地管理</div>
+									<ul>    
+										<li><a href="#" style="background-color: #e0c1c1;" onclick="selectCourtInfo()">查看场地</a></li>
+									</ul>
+								</aside>
+							</section>
+						</aside>
+						<form action="" method="post">
+							<section class="boxRight">
+								<div class="boxRight_tit f1 borderb">场地列表</div>
+								<article class="boxRightCon">
+									<div style="text-align:center;margin: 4% 20%;">
+										<table id="detailTbl" border="1" align="center">
+										</table>
+									</div>
+								</article>
+							</section>
+						</form>
+					</section>
+				</div>
+			</div>
+
+		</div>
+		
+		
+		<div id="bookManagerPage" style="display: none" class="medium-8 columns">
+			<div style="text-align: center;">
+				<menu class="menu" style="width: 1000px;">
+					<div class="w1170">
+						<ul id="bookUlliControl">
+							<li id="newBook"><a href="#">新增预订</a></li>
+							<li id="viewBook" class="on"><a href="#">预订管理</a></li>
+						</ul>
+					</div>
+				</menu>
+				<div id="bookContent" style="width: 800px;"></div>
+				<div id="errorBookDisplayDiv" style="display:none; POSITION:absolute; left:65%; top:65%; width:35%; background-color:red; text-align:left; padding:10px 15px">
+					<span id="errorBookMsgDisplay"></span>
+					<input type="button" style="margin-top: 15%;float:right" value="关闭" name="divClose" onclick="$('#errorBookDisplayDiv').hide();">
+				</div>
+				<div id="newBookcontent" style="display: none">
+					<section class="umcontent">
+						<aside class="left_con">
+							<!--背景层-->
+							<section class="content1">
+								<aside class="left_con">
+									<div class="left_con_tit borderb">新增预订</div>
+									
+								</aside>
+							</section>
+						</aside>
+						<form action="" method="post">
+							<section class="boxRight">
+								<div class="boxRight_tit f1 borderb">新增预订</div>
+								<article class="boxRightCon">
+									<table id="divAddBookTbl" border="0" width="80%" align="center">
+										<tbody>
+											<tr>
+											<td colspan="2"><div align="center">场地预订<br><span style='font-size:5px'>(只能预订同一天8：00-22：00)</span></div></td>
+										</tr>
+										<tr>
+											<td width="30%">用户名:</td>
+											<td width="70%"><input type="text" maxlength="20" size="20%"  id="userNameCourtSelect" name="userName"></td>
+										</tr>
+										<tr>
+											<td width="30%">场地名称:<br></td>
+											<td width="70%"><select id="selectCourtName" style="width:70%" >
+											　　　　<option>请选择</option>
+											　　</select>
+											<input type="button" class="smllButton" style="float:right;background-color: #2E9AFE;padding: 4px 10px;" value="随机" onclick="rondomSelect()">
+											</td>
+										</tr>
+										<tr>
+											<td width="30%">场地编号:</td>
+											<td width="70%"><input type="text" maxlength="20" size="20%"  disabled="disabled" id="courtIdSelect" name="courtId"></td>
+										</tr>
+										<tr>
+											<td width="30%">开始时间:</td>
+											<td width="70%"><input name="startTime" id='startTimeMuch' type="text" class="Wdate" onclick="dateStartTime()" onblur="selectCourtRealTime();"></td>
+										</tr>
+										<tr>
+											<td width="30%">结束时间:</td>
+											<td width="70%"><input name="endTime" id="endTimeMuch" type="text" class="Wdate" onclick="dateEndTime()"  onblur="selectCourtRealTime();"></td>
+										</tr>
+										<tr>
+											<td valign="top"><br></td>
+											<td valign="top">
+												<input type="button" class="smllButton" style="background-color: #C6A300;" value="预订" name="BtnBook" onclick="adminBookSpaceNow()">
+										</tr>
+										</tbody>
+									</table>
+								</article>
+							</section>
+						</form>
+					</section>
+				</div>
+				<div id="umBookContent" style="display: none">
+					<section class="umcontent">
+						<aside class="left_con">
+							<!--背景层-->
+							<section class="content1">
+								<aside class="left_con">
+									<div class="left_con_tit borderb">预订管理</div>
+									<ul>    
+										<li>
+											<div style="">
+											<input name="bookTime" id="bookTime" type="text" class="Wdate" onclick="WdatePicker({ dateFmt: 'yyyy-MM-dd' })">
+											</div>
+										</li>
+										<li><a href="#" style="margin-bottom: 20px;background-color: #FFC78E;" onclick="selectBookSpace()">查看预订</a></li>
+										<li><a href="#" style="margin-bottom: 20px;background-color: #e0c1c1;" onclick="selectAllBookSpace()">查看所有预订</a></li>
+									</ul>
+								</aside>
+							</section>
+						</aside>
+						<form action="" method="post">
+							<section class="boxRight">
+								<div class="boxRight_tit f1 borderb">预订列表</div>
+								<article class="boxRightCon">
+									
+									<div style="text-align:center;margin: 4% 4%;">
+										<table id="detailBookTbl" border="1" align="center">
+										</table>
+									</div>
+								</article>
+							</section>
+						</form>
+					</section>
+				</div>
+			</div>
+
+		</div>
+		
+		
+		<div id="userManagerPage" style="display: none" class="medium-8 columns">
+			<div style="text-align: center;">
+				<menu class="menu" style="width: 1000px;">
+					<div class="w1170">
+						<ul id="userUlliControl">
+							<li><a href="#">新增用户</a></li>
+							<li id="viewUsers" class="on"><a href="#">用户管理</a></li>
+						</ul>
+					</div>
+				</menu>
+				<div id="usersContent" style="width: 800px;"></div>
+				<div id="errorUsersDisplayDiv" style="display:none; POSITION:absolute; left:65%; top:65%; width:25%; background-color:red; text-align:left; padding:10px 15px">
+					<span id="errorUsersMsgDisplay"></span>
+					<input type="button" style="margin-top: 4%;float:right" value="关闭" name="divClose" onclick="$('#errorUsersDisplayDiv').hide();">
+				</div>
+				<div id="newUserContent" style="display: none">
+					<section class="umcontent">
+						<aside class="left_con">
+							<!--背景层-->
+							<section class="content1">
+								<aside class="left_con">
+									<div class="left_con_tit borderb">新增用户</div>
+									
+								</aside>
+							</section>
+						</aside>
+						<form action="" method="post">
+							<section class="boxRight">
+								<div class="boxRight_tit f1 borderb">新增用户</div>
+								<article class="boxRightCon">
+									<table id="divAddUserTbl" border="0" align="center">
+										<tbody>
+											<tr>
+												<td colspan="2"><div align="center">添加用户</div></td>
+											</tr>
+											<tr>
+												<td>用户名</td>
+												<td><input type="text" maxlength="20" size="20%" id="newUserName" name="newUserName"></td>
+											</tr>
+											<tr>
+												<td>密码</td>
+												<td><input type="text" maxlength="20" size="20%" id="newPasswd" name="newPasswd"></td>
+											</tr>
+											<tr>
+												<td>姓名:</td>
+												<td><input type="text" maxlength="20" size="20%" id="newName"  name="newName"></td>
+											</tr>
+											<tr>
+												<td>邮箱:</td>
+												<td><input type="text" maxlength="20" size="20%" id="newEmail"  name="newEmail"></td>
+											</tr>
+											<tr>
+												<td>手机号:</td>
+												<td><input type="text" maxlength="20" size="20%" id="newMobile"  name="newMobile"></td>
+											</tr>
+											<tr>
+												<td valign="top"><br></td>
+												<td valign="top" align="center">
+													<input type="button" class="button" style="background-color: #007500;" value="新增"onclick="addUserNow()">
+											</tr>
+										</tbody>
+									</table>
+								</article>
+							</section>
+						</form>
+					</section>
+				</div>
+				<div id="umUsersContent" style="display: none">
+					<section class="umcontent">
+						<aside class="left_con">
+							<!--背景层-->
+							<section class="content1">
+								<aside class="left_con">
+									<div class="left_con_tit borderb">用户管理</div>
+									<ul>   
+										<li>
+											<div style="">
+											<input name="userSelectText" id="userSelectText" type="text">
+											</div>
+										</li>  
+										<li><a href="#" style="background-color: #e0c1c1;" onclick="selectUserInfo()">查看用户</a></li>
+									</ul>
+								</aside>
+							</section>
+						</aside>
+						<form action="" method="post">
+							<section class="boxRight">
+								<div class="boxRight_tit f1 borderb">用户列表</div>
+								<article class="boxRightCon">
+									<div style="text-align:center;margin: 4% 4%;">
+										<table id="detailUsersTbl" border="1" align="center">
+										</table>
+									</div>
+								</article>
+							</section>
+						</form>
+					</section>
+				</div>
+			</div>
+
+		</div>
+		
+		<div id="consumeManagerPage" style="display: none" class="medium-8 columns">
+			<div style="text-align: center;">
+				<menu class="menu" style="width: 1000px;">
+					<div class="w1170">
+						<ul id="consumeUlliControl">
+							<li><a href="#">充值</a></li>
+							<li id="consumeMoney"><a href="#">消费</a></li>
+							<li id="consumeStatistics" class="on"><a href="#">统计</a></li>
+						</ul>
+					</div>
+				</menu>
+				<div id="consumeContent" style="width: 800px;"></div>
+				<div id="errorConsumeDisplayDiv" style="display:none; POSITION:absolute; left:65%; top:65%; width:25%; background-color:red; text-align:left; padding:10px 15px">
+					<span id="errorConsumeMsgDisplay"></span>
+					<input type="button" style="margin-top: 4%;float:right" value="关闭" name="divClose" onclick="$('#errorConsumeDisplayDiv').hide();">
+				</div>
+				<div id="chargeConsumeContent" style="display: none">
+					<section class="umcontent">
+						<aside class="left_con">
+							<!--背景层-->
+							<section class="content1">
+								<aside class="left_con">
+									<div class="left_con_tit borderb">充值</div>
+									
+								</aside>
+							</section>
+						</aside>
+						<form action="" method="post">
+							<section class="boxRight">
+								<div class="boxRight_tit f1 borderb">充值</div>
+								<article class="boxRightCon">
+									<table id="divChargeConsumeTbl" border="0" align="center">
+										<tbody>
+											<tr>
+												<td colspan="2"><div align="center">收入Money</div></td>
+											</tr>
+											<tr>
+												<td>用户名</td>
+												<td><input type="text" maxlength="20" size="20%" id="userNameWithMoney" name="userNameWithMoney"></td>
+											</tr>
+											<tr>
+												<td>金额</td>
+												<td><input type="text" maxlength="20" size="20%" id="moneyWithMoney" name="moneyWithMoney"></td>
+											</tr>
+											<tr>
+												<td>备注:</td>
+												<td><input type="text" maxlength="20" size="20%" id="remarkWithMoney"  name="remarkWithMoney"></td>
+											</tr>
+											<tr>
+												<td valign="top"><br></td>
+												<td valign="top" align="center">
+													<input type="button" class="button" style="background-color: #007500;" value="确定"onclick="chargeConsume()">
+											</tr>
+										</tbody>
+									</table>
+								</article>
+							</section>
+						</form>
+					</section>
+				</div>
+				<div id="umConsumeContent" style="display: none">
+					<section class="umcontent">
+						<aside class="left_con">
+							<!--背景层-->
+							<section class="content1">
+								<aside class="left_con">
+									<div class="left_con_tit borderb">消费</div>
+									<ul>    
+										<li><a href="#" style="margin-bottom: 20px;background-color: #FFC78E;" onclick="selectConsumeSpace()">消费</a></li>
+									
+										<li>
+											<div style="">
+											<input name="transDate" id="transDate" type="text" class="Wdate" onclick="WdatePicker({ dateFmt: 'yyyy-MM-dd' })">
+											</div>
+										</li>
+										<li><a href="#" style="margin-bottom: 20px;background-color: #e0c1c1;" onclick="selectConsumeDetailSpace()">查看消费明细</a></li>
+									</ul>
+								</aside>
+							</section>
+						</aside>
+						<form action="" method="post">
+							<section class="boxRight">
+								<div class="boxRight_tit f1 borderb">消费</div>
+								<article class="boxRightCon">
+									<div style="text-align:center;margin: 4% 4%;">
+										<table id="detailConsumeTbl"  border="1" align="center">
+											
+										</table>
+										<table id="detailConsumeHideTbl" style="display: none" border="1" align="center">
+											<tbody>
+												<tr>
+													<td colspan="2"><div align="center">花费Money</div></td>
+												</tr>
+												<tr>
+													<td>用户名</td>
+													<td><input type="text" maxlength="20" size="20%" id="userNameNeedMoney" name="userNameNeedMoney"></td>
+												</tr>
+												<tr>
+													<td>金额</td>
+													<td><input type="text" maxlength="20" size="20%" id="moneyNeedMoney" name="moneyNeedMoney"></td>
+												</tr>
+												<tr>
+													<td>备注:</td>
+													<td><input type="text" maxlength="20" size="20%" id="remarkNeedMoney"  name="remarkNeedMoney"></td>
+												</tr>
+												<tr>
+													<td valign="top"><br></td>
+													<td valign="top" align="center">
+														<input type="button" class="button" style="background-color: #007500;" value="确定"onclick="consumeConsume()">
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</article>
+							</section>
+						</form>
+					</section>
+				</div>
+				
+				<div id="umConsumeStatisticsContent" style="display: none">
+					<section class="umcontent">
+						<aside class="left_con">
+							<!--背景层-->
+							<section class="content1">
+								<aside class="left_con">
+									<div class="left_con_tit borderb">消费统计</div>
+									
+								</aside>
+							</section>
+						</aside>
+						<form action="" method="post">
+							<section class="boxRight">
+								<div class="boxRight_tit f1 borderb">消费统计</div>
+								<article class="boxRightCon">
+									<div style="text-align:center;margin: 4% 4%;">
+										<table id="detailConsumeStatisticsTbl" border="1" align="center">
+											<tbody>
+											<tr>
+												<td>存款</td>
+												<td><input type="text" maxlength="20" size="20%" id="allDeposit" name="allDeposit"></td>
+											</tr>
+											<tr>
+												<td>收入</td>
+												<td><input type="text" maxlength="20" size="20%" id="allIncome" name="allIncome"></td>
+											</tr>
+											
+										</tbody>
+										</table>
+									</div>
+								</article>
+							</section>
+						</form>
+					</section>
+				</div>
+			</div>
+
+		</div>
+		
+	</div>
+	<div id="logoutPage" style="display: none" class="medium-8 columns">
+		<div id="logoutDisplayDiv" style="POSITION:absolute; left:40%; width:25%; background-color:red; text-align:left; padding:10px 15px">
+			<span>确定退出么？</span>
+			<input type="button" class="smllButton" style="margin-top: 4%;float:right;background-color: #C6A300;" value="关闭" name="divClose" onclick="$('#logoutPage').hide();">
+			<input type="button" class="smllButton" style="margin-top: 4%;float:right;background-color: #007500;" value="确定" onclick="window.location.href='/logout'">	
+		</div>
+	</div>
+	<div id="editUserDisplayDiv" style="display:none; POSITION:absolute; left:38%; top:20%; width:20%; background-color:#FFF0F5; text-align:left; padding:10px 15px">
+		<form method="post" action="">
+			<table id="editUserTbl" width="80%" border="0" align="center">
+				<tbody>
+					<tr>
+						<td colspan="2"><div align="center">编辑用户</div></td>
+					</tr>
+					<tr>
+						<td>用户名</td>
+						<td><input type="text" maxlength="20" size="20%" id="editUserName" name="editUserName"></td>
+					</tr>
+					<tr>
+						<td>姓名:</td>
+						<td><input type="text" maxlength="20" size="20%" id="editName"  name="editName"></td>
+					</tr>
+					<tr>
+						<td>邮箱:</td>
+						<td><input type="text" maxlength="20" size="20%" id="editEmail"  name="editEmail"></td>
+					</tr>
+					<tr>
+						<td>手机号:</td>
+						<td><input type="text" maxlength="20" size="20%" id="editMobile"  name="editMobile"></td>
+					</tr>
+					<tr>
+						<td valign="top"><br></td>
+						<td valign="top"><input type="button" class="smllButton" style="background-color: #C6A300;" value="确定" name="BtnAddCourt" onclick="updateUser()">
+							<input type="button" class="smllButton" value="取消" style="background-color: #007500;" onclick="$('#editUserDisplayDiv').hide();"> </td>
+					</tr>
+				</tbody>
+			</table>
+		</form>
+	</div>
+	<div id="editAccountInfoDisplayDiv" style="display:none; POSITION:absolute; left:38%; top:20%; width:20%; background-color:#FFF0F5; text-align:left; padding:10px 15px">
+		<form method="post" action="">
+			<table id="editAccountInfoTbl" width="80%" border="0" align="center">
+				<tbody>
+					<tr>
+						<td colspan="2"><div align="center">账户信息</div></td>
+					</tr>
+					<tr>
+						<td>用户名</td>
+						<td><input type="text" maxlength="20" size="20%" id="accountUserName" name="accountUserName"></td>
+					</tr>
+					<tr>
+						<td>账户类型:</td>
+						<td><input type="text" maxlength="20" size="20%" id="accountType"  name="accountType"></td>
+					</tr>
+					<tr>
+						<td>开户时间:</td>
+						<td><input type="text" maxlength="20" size="20%" id="accountOpenTime"  name="accountOpenTime"></td>
+					</tr>
+					<tr>
+						<td>账户状态:</td>
+						<td><input type="text" maxlength="20" size="20%" id="accountStatus"  name="accountStatus"></td>
+					</tr>
+					<tr>
+						<td>账户余额:</td>
+						<td><input type="text" maxlength="20" size="20%" id="accountBal"  name="accountBal"></td>
+					</tr>
+					<tr>
+						<td valign="top"><br></td>
+						<td valign="top"><input type="button" class="smllButton" style="background-color: #C6A300;" value="销户" onclick="closeAccountWithAdmin()">
+							<input type="button" class="smllButton" value="关闭" style="background-color: #007500;" onclick="$('#editAccountInfoDisplayDiv').hide();"> </td>
+					</tr>
+				</tbody>
+			</table>
+		</form>
+	</div>
+	<script type="text/javascript">
+		$(function() {
+			
+			$("#homePage").show();
+			
+			$("#bar li").click(function() {
+				$("#"+ $(this).siblings('li').attr('id') + "Page").hide();
+				$("#userManagerPage").hide();
+				$("#courtManagerPage").hide();
+				$("#homePage").hide();
+				$("#bookManagerPage").hide();
+				$("#logoutPage").hide();
+				$("#consumeManagerPage").hide();
+				var id = $(this).attr('id');
+				if(id == "userManager"){
+					$("#userManagerPage").show();
+				}else if(id == "courtManager"){
+					$("#courtManagerPage").show();
+				}else if(id == "bookManager"){
+					$("#bookManagerPage").show();
+				}else if(id == "consumeManager"){
+					$("#consumeManagerPage").show();	
+					consumeStatistics();
+				}else if(id == "logout"){
+					$("#logoutPage").show();
+				}else {
+					$("#homePage").show();
+				}
+			});
+			$("#courtContent").html($("#umcontent").html());
+			$("#courtUlliControl li").click(function() {
+				$(this).siblings('li').removeClass('on'); // 删除其他兄弟元素的样式
+				$(this).addClass('on'); // 添加当前元素的样式
+				var id = $(this).attr('id');
+				if(id == "newCourt"){
+					$("#courtContent").html($("#newCourtcontent").html());
+				}else {
+					$("#courtContent").html($("#umcontent").html());
+				}
+			});
+			
+			$("#bookContent").html($("#umBookContent").html());
+			$("#bookUlliControl li").click(function() {
+				$(this).siblings('li').removeClass('on'); // 删除其他兄弟元素的样式
+				$(this).addClass('on'); // 添加当前元素的样式
+				var id = $(this).attr('id');
+				if(id == "newBook"){
+					$("#bookContent").html($("#newBookcontent").html());
+					var startInitDate=dateFtt('yyyy-MM-dd HH',new Date());
+				    var endInitDate = GetTodayHourStr(1);
+				    $("#startTimeMuch").val(startInitDate);
+				    $("#endTimeMuch").val(endInitDate);
+
+				    $("#selectCourtName").change(function(){
+				    	var courtName = $(this).val();
+				    	if(courtName == "" || courtName == "请选择")return;
+				    	$.ajax({
+							type : "post",
+							url : "api/getCourtId",
+							data : {
+								"courtName" : courtName
+							},
+							dataType : "json",
+							success : function(data) {
+								$("#courtIdSelect").val(data);
+							},
+							error : function(XMLHttpRequest, textStatus, errorThrown) {
+								
+							}
+						});
+					});
+				    initCourtInfo();
+				}else {
+					$("#bookContent").html($("#umBookContent").html());
+				}
+			});
+			
+			$("#usersContent").html($("#umUsersContent").html());
+			$("#userUlliControl li").click(function() {
+				$(this).siblings('li').removeClass('on'); // 删除其他兄弟元素的样式
+				$(this).addClass('on'); // 添加当前元素的样式
+				var id = $(this).attr('id');
+				if(id == "viewUsers"){
+					$("#usersContent").html($("#umUsersContent").html());
+				}else{
+					$("#usersContent").html($("#newUserContent").html());
+				}
+			});
+			
+			$("#consumeContent").html($("#umConsumeStatisticsContent").html());
+			$("#consumeUlliControl li").click(function() {
+				$(this).siblings('li').removeClass('on'); // 删除其他兄弟元素的样式
+				$(this).addClass('on'); // 添加当前元素的样式
+				var id = $(this).attr('id');
+				if(id == "consumeMoney"){
+					$("#consumeContent").html($("#umConsumeContent").html());
+				}else if(id == "consumeStatistics"){
+					$("#consumeContent").html($("#umConsumeStatisticsContent").html());
+					consumeStatistics();
+				}else{
+					$("#consumeContent").html($("#chargeConsumeContent").html());
+				}
+			});
+		
+		});
+	</script>
+</body>
+</html>

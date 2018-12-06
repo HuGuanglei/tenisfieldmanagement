@@ -1,0 +1,456 @@
+@charset "utf-8"; 
+li{
+	list-style-type:none;
+}
+.assetInfo{
+	margin-top: 20px;
+    margin-left: 30px;
+}
+.assetconfig{
+    margin-top: 20px;
+    margin-left: 50px;
+}
+
+.bgfront{
+	margin: 8px 250px;
+	width: 60%;
+}
+
+.registerfront{
+	margin: 40px 571px;
+}
+
+.frontindex{
+	margin-top: 60px;
+	min-width: 1200px;
+	height: 788px;
+}
+
+.imglogo{
+	margin: 5px 10px 5px 250px;
+	width: 50px;
+	height: 50px;
+}
+
+.textlogo{
+	font-size: 20px;
+    line-height: 40px;
+    color: #fff;
+    font-weight:bold;
+}
+
+.imglogocm{
+	margin-left: -500px;
+	width: 5%;
+}
+
+.imglogoright{
+	display:block;
+	width: 220px;
+	margin-top: 15px;
+	margin-right: 200px;
+}
+
+
+.loginSection {
+    width: 500px;
+    top: 25.9%;
+    left: 50%;
+    margin: 100px auto 0;
+    padding: 27px 45px 40px;
+    background: #fff;
+    border-radius: 4px;
+}
+
+.loginSection .title {
+    font-size: 14px;
+    color: #666;
+    clear: both;
+    text-align: center;
+}
+
+.account{
+	width: 310px;
+    height: 40px;
+    margin-bottom: 7px;
+    line-height: 40px;
+    padding-left: 12px;
+    border-radius: 4px;
+    border: 1px solid #dcdcdc;
+}
+
+.passw{
+	width: 310px;
+    height: 40px;
+    margin-bottom: 7px;
+    line-height: 40px;
+    padding-left: 12px;
+    border-radius: 4px;
+    border: 1px solid #dcdcdc;
+}
+
+.error_mess{
+	font-size: 12px;
+    color: #f86161;
+    margin-left: -200px;
+}
+
+.clearB {
+    clear: both;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.agreen-regis {
+    display: inline-block;
+    width: 170px;
+    height: 40px;
+    font-size: 16px;
+    line-height: 40px;
+    text-align: center;
+    margin: 25px auto 0;
+    border-radius: 20px;
+    background-color: #75ceff;
+    color: #fff;
+    border: none;
+}
+
+.loginSection .already {
+    font-size: 12px;
+    text-align: center;
+    margin-top: 34px;
+}
+.loginSection .already>a {
+    color: #59c4ff;
+}
+
+.menu {
+    height: 40px;
+    line-height: 60px;
+    background: #009393;
+    z-index: 10;
+    position: relative;
+    font-size: 16px;
+}
+
+.menu li {
+    float: left;
+    margin: 0px 8px;
+}
+
+.menu li a {
+	text-decoration:none;
+	
+    -webkit-transition: all 0.3s linear;
+    display: block;
+    text-align: center;
+    color: #fff;
+    width: 120px;
+    padding: 7px;
+}
+
+.menu li a:hover, .menu li.on a {
+    background: #f35e0b;
+    height: 40px;
+}
+
+.w1170 {
+    position: relative;
+    width: 1170px;
+    margin: 0 auto;
+}
+
+.shinmenu {
+    height: 40px;
+    line-height: 40px;
+    background: #9cf1e4;
+    position: relative;
+    font-size: 16px;
+}
+
+.shinmenu li {
+    float: left;
+    margin: 0 8px;
+}
+
+.shinmenu li a {
+	text-decoration:none;
+	
+    -webkit-transition: all 0.3s linear;
+    display: block;
+    text-align: center;
+    color: #fff;
+    width: 120px;
+}
+
+.shinmenu li a:hover, .shinmenu li.on a {
+    background: #f35e0b;
+}
+
+.shinmenu li a:link {
+    background: #c0c0c0;
+}
+
+.shinmenu li.off a {
+    background: #c0c0c0;
+}
+
+.shinmenuw1170 {
+    position: relative;
+    width: 1170px;
+    margin: 0 auto;
+}
+
+#umcontent {
+    width: 1170px;
+    border: 1px solid #dcdcdc;
+    margin: 26px auto;
+    box-sizing: border-box;
+}
+
+.left_con {
+    width: 198px;
+    float: left;
+}
+
+.left_con ul, li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.left_con_tit {
+    font-size: 18px;
+    padding: 10px 0 10px 0px;
+    line-height: 38px;
+    color: #212121;
+    margin: 0 7px 20px;
+    text-align: center;
+}
+
+.left_con li a {
+    -webkit-transition: all 0.2s linear;
+    display: block;
+    padding-left: 33px;
+    position: relative;
+    color: #616466;
+    text-decoration: none;
+}
+
+.content form {
+    display: block;
+    margin-top: 0em;
+}
+
+.boxRight {
+    min-height: 600px;
+    height: auto !important;
+    height: 600px;
+    border-left: 1px solid #dcdcdc;
+    margin-left: 198px;
+}
+
+.boxRight_tit {
+    padding: 10px 22px;
+    line-height: 38px;
+    position: relative;
+    text-align: left;
+}
+
+.f1 {
+    font-size: 24px;
+    color: #333;
+}
+
+.boxRightCon {
+    padding: 20px;
+    color: #333;
+}
+
+.borderb {
+    border-bottom: 1px solid #dcdcdc;
+}
+
+.chagepassword {padding:60px;margin-left:90px;}
+.chagepassword .error{ padding:0 0 20px 0}
+.chagepassword li{ padding-bottom:20px; height:28px; position:relative;}
+.chagepassword span.f2{ width:90px; text-align:right; display:inline-block; position:absolute; left:-105px;}
+.chagepassword li input{
+	margin:0 5px 0 -390px; 
+	width:183px;
+	border: 1px solid #dcdcdc;
+    background: transparent;
+    color: #999;
+    padding: 6px 5px;
+}
+#passwordnew{
+	margin:0 5px 0 -406px; 
+}
+.changepassword_btn{ margin:0;}
+.changepassword_btn .fabu_btn a{ display:block; height:46px;}
+
+.color9 {
+    color: #999;
+}
+
+#editUserTbl td{
+ 	white-space: nowrap;
+ }
+
+.button {
+    background-color: #a65579; /* Green */
+    border: none;
+    color: white;
+    padding: 11px 23px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 12px;
+}
+
+.smllButton {
+    background-color: #a65579; /* Green */
+    border: none;
+    color: white;
+    padding: 5px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 12px;
+}
+
+.vip_btn{
+	width: 150px;
+    height: 45px;
+    padding: 0;
+    display: inline-block;
+    color: #fff;
+    font-size: 18px;
+    text-align: center;
+    line-height: 45px;
+    margin-bottom: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+.UserPwdSubbtn{
+	-webkit-transition: all 0.2s linear;
+    display: block;
+    position: relative;
+    color: #fff;
+    text-decoration: none;
+}
+
+.error{
+	color: #FF0000;
+	float: left;
+}
+
+.bs-btn-red {
+    background: #fe0000 !important;
+    color: #fff !important;
+}
+
+.experience-btn {
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    color: #CE6A10;
+    padding: 2px 15px;
+    border-radius: 20px;
+    background: #FFD440;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.experience-btn_2 {
+    color: #CE6A10;
+    padding: 2px 15px;
+    border-radius: 20px;
+    background: #FFD440;
+    text-decoration: none;
+    cursor: pointer;
+        width:50%;
+}
+
+.s1 {
+    bottom: 100px;
+    left: 120px;
+
+}
+
+.bs-btn-blue {
+    background: #00a0ea !important;
+    border-color: #00a0ea !important;
+    color: #fff !important;
+    font-size: 20px;
+}
+
+.bs-btn-green {
+    background: #60dbb6!important;
+    border-color: #60dbb6!important;
+    color: #fff !important;
+    font-size: 20px;
+}
+
+.baidu-header__navbar {
+    position: absolute;
+    right: 150px;
+    top: 0;
+    margin-right: 50px;
+}
+
+.baidu-header__navbar ul{
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+li.prodli{
+    padding: 0 10 0 0;
+    margin: 9px;
+    float:left;
+    list-style: none;
+    font-size: 20px;
+    line-height: 40px;
+    color: #fff;
+}
+.prodlitext{
+	color: #fff;
+}
+
+.item_bg_02 {
+    width: 1200px;
+    height: 560px;
+    margin: 115px auto;
+}
+.bs_item-bg_02 {
+    background: none !important;
+    height: 660px !important;
+}
+
+.bs-s1-bg {
+    float:left;
+	width:33%;
+    display: inline;
+}
+
+.textsolution{
+	font-size: 20px;
+    line-height: 40px;
+    color: #000000;
+    font-weight:bold;
+}
+.bs-s2-bg_btn{
+	float: left;
+	width:33%;
+	display: inline;
+}
